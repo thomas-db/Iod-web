@@ -1,12 +1,12 @@
 <template>
   <div class="dashboard">
-
     <dashboard-info-widgets></dashboard-info-widgets>
 
     <vuestic-widget class="no-padding no-v-padding">
       <vuestic-tabs
         :names="[$t('dashboard.dataVisualization'), $t('dashboard.usersAndMembers'), $t('dashboard.setupProfile'), $t('dashboard.features')]"
-        ref="tabs">
+        ref="tabs"
+      >
         <div :slot="$t('dashboard.dataVisualization')">
           <data-visualisation-tab></data-visualisation-tab>
         </div>
@@ -23,7 +23,6 @@
     </vuestic-widget>
 
     <dashboard-bottom-widgets></dashboard-bottom-widgets>
-
   </div>
 </template>
 
@@ -61,7 +60,6 @@ export default {
     }
   }
 }
-
 </script>
 <style lang="scss" scoped>
 </style>

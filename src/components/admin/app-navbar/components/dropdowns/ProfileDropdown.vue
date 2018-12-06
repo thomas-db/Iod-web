@@ -3,29 +3,37 @@
     <span class="profile-dropdown__avatar-container">
       <slot/>
     </span>
-    <vuestic-dropdown
-      v-model="isShown"
-      position="bottom"
-    >
-      <div
-        v-for="option in options"
-        :key="option.name"
-        class="dropdown-item plain-link-item"
-      >
-        <router-link :to="{name: option.redirectTo}" class="plain-link" href="#">
-          {{ $t(`user.${option.name}`) }}
-        </router-link>
+    <vuestic-dropdown v-model="isShown" position="bottom">
+      <div v-for="option in options" :key="option.name" class="dropdown-item plain-link-item">
+        <a @click="logout" href="/#/auth/login">{{ $t(`user.${option.name}`) }}</a>
       </div>
     </vuestic-dropdown>
   </div>
 </template>
 
 <script>
+import firebase from 'firebase'
 export default {
   name: 'profile-section',
   data () {
     return {
-      isShown: false,
+      isShown: false
+    }
+  },
+  methods: {
+    logout: function () {
+      firebase
+        .auth()
+        .signOut()
+        .then(
+          function (user) {
+            this.$router.push('/login')
+            alert('Oops. ')
+          },
+          function (err) {
+            alert('Oops. ' + err.message)
+          }
+        )
     }
   },
   props: {
@@ -34,20 +42,20 @@ export default {
       default: () => [
         {
           name: 'profile',
-          redirectTo: '',
+          redirectTo: ''
         },
         {
           name: 'logout',
-          redirectTo: 'login',
-        },
-      ],
-    },
-  },
+          redirectTo: 'login'
+        }
+      ]
+    }
+  }
 }
 </script>
 
 <style lang="scss">
-@import '../../../../../vuestic-theme/vuestic-sass/resources/resources';
+@import "../../../../../vuestic-theme/vuestic-sass/resources/resources";
 
 .profile-dropdown {
   @include flex-center();

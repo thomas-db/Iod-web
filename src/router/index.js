@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import AppLayout from '../components/admin/AppLayout'
 import AuthLayout from '../components/auth/AuthLayout'
 import lazyLoading from './lazyLoading'
+import firebase from 'firebase'
 
 Vue.use(Router)
 
@@ -12,20 +13,20 @@ if (process.env.NODE_ENV === 'development') {
 
   demoRoutes.push(
     VueBook(require.context('./..', true, /.demo.vue$/), '/demo'),
-    VueBook(require.context('./../components', true, /.vue$/), '/presentation'),
+    VueBook(require.context('./../components', true, /.vue$/), '/presentation')
   )
 }
 
 const EmptyParentComponent = {
-  template: '<router-view></router-view>',
+  template: '<router-view></router-view>'
 }
 
-export default new Router({
+const router = new Router({
   routes: [
     ...demoRoutes,
     {
       path: '*',
-      redirect: { name: 'dashboard' },
+      redirect: { name: 'dashboard' }
     },
     {
       path: '/auth',
@@ -34,18 +35,18 @@ export default new Router({
         {
           name: 'login',
           path: 'login',
-          component: lazyLoading('auth/login/Login'),
+          component: lazyLoading('auth/login/Login')
         },
         {
           name: 'signup',
           path: 'signup',
-          component: lazyLoading('auth/signup/Signup'),
+          component: lazyLoading('auth/signup/Signup')
         },
         {
           path: '',
-          redirect: { name: 'login' },
-        },
-      ],
+          redirect: { name: 'login' }
+        }
+      ]
     },
     {
       path: '/404',
@@ -77,12 +78,15 @@ export default new Router({
       name: 'Admin',
       path: '/admin',
       component: AppLayout,
+      meta: {
+        requireAuth: true
+      },
       children: [
         {
           name: 'dashboard',
           path: 'dashboard',
           component: lazyLoading('dashboard/Dashboard'),
-          default: true,
+          default: true
         },
         {
           name: 'statistics',
@@ -94,7 +98,8 @@ export default new Router({
               path: 'charts',
               component: lazyLoading('statistics/charts/Charts'),
               meta: {
-                wikiLink: 'https://github.com/epicmaxco/vuestic-admin/wiki/Charts'
+                wikiLink:
+                  'https://github.com/epicmaxco/vuestic-admin/wiki/Charts'
               }
             },
             {
@@ -102,10 +107,11 @@ export default new Router({
               path: 'progress-bars',
               component: lazyLoading('statistics/progress-bars/ProgressBars'),
               meta: {
-                wikiLink: 'https://github.com/epicmaxco/vuestic-admin/wiki/Progress-Bars'
+                wikiLink:
+                  'https://github.com/epicmaxco/vuestic-admin/wiki/Progress-Bars'
               }
             }
-          ],
+          ]
         },
         {
           name: 'forms',
@@ -117,7 +123,8 @@ export default new Router({
               path: 'form-elements',
               component: lazyLoading('forms/form-elements/FormElements'),
               meta: {
-                wikiLink: 'https://github.com/epicmaxco/vuestic-admin/wiki/inputs'
+                wikiLink:
+                  'https://github.com/epicmaxco/vuestic-admin/wiki/inputs'
               }
             },
             {
@@ -125,7 +132,8 @@ export default new Router({
               path: 'form-wizards',
               component: lazyLoading('forms/form-wizard/FormWizard'),
               meta: {
-                wikiLink: 'https://github.com/epicmaxco/vuestic-admin/wiki/Wizards'
+                wikiLink:
+                  'https://github.com/epicmaxco/vuestic-admin/wiki/Wizards'
               }
             },
             {
@@ -133,10 +141,11 @@ export default new Router({
               path: 'medium-editor',
               component: lazyLoading('forms/medium-editor/MediumEditor'),
               meta: {
-                wikiLink: 'https://github.com/epicmaxco/vuestic-admin/wiki/Medium-Editor'
+                wikiLink:
+                  'https://github.com/epicmaxco/vuestic-admin/wiki/Medium-Editor'
               }
             }
-          ],
+          ]
         },
         {
           name: 'tables',
@@ -154,14 +163,15 @@ export default new Router({
             {
               name: 'typography',
               path: 'typography',
-              component: lazyLoading('ui/typography/Typography'),
+              component: lazyLoading('ui/typography/Typography')
             },
             {
               name: 'buttons',
               path: 'buttons',
               component: lazyLoading('ui/buttons/Buttons'),
               meta: {
-                wikiLink: 'https://github.com/epicmaxco/vuestic-admin/wiki/Buttons'
+                wikiLink:
+                  'https://github.com/epicmaxco/vuestic-admin/wiki/Buttons'
               }
             },
             {
@@ -169,7 +179,8 @@ export default new Router({
               path: 'color-pickers',
               component: lazyLoading('ui/color-pickers/ColorPickers'),
               meta: {
-                wikiLink: 'https://github.com/epicmaxco/vuestic-admin/wiki/Color-Pickers'
+                wikiLink:
+                  'https://github.com/epicmaxco/vuestic-admin/wiki/Color-Pickers'
               }
             },
             {
@@ -177,7 +188,8 @@ export default new Router({
               path: 'timelines',
               component: lazyLoading('ui/timelines/Timelines'),
               meta: {
-                wikiLink: 'https://github.com/epicmaxco/vuestic-admin/wiki/Timelines'
+                wikiLink:
+                  'https://github.com/epicmaxco/vuestic-admin/wiki/Timelines'
               }
             },
             {
@@ -185,13 +197,14 @@ export default new Router({
               path: 'dropdowns',
               component: lazyLoading('ui/dropdowns/Dropdowns'),
               meta: {
-                wikiLink: 'https://github.com/epicmaxco/vuestic-admin/wiki/Dropdowns'
+                wikiLink:
+                  'https://github.com/epicmaxco/vuestic-admin/wiki/Dropdowns'
               }
             },
             {
               name: 'notifications',
               path: 'notifications',
-              component: lazyLoading('ui/notifications/Notifications'),
+              component: lazyLoading('ui/notifications/Notifications')
             },
             {
               path: 'icons',
@@ -200,32 +213,33 @@ export default new Router({
                 {
                   name: 'icon-sets',
                   path: '', // Default route
-                  component: lazyLoading('ui/icons/SetsList'),
+                  component: lazyLoading('ui/icons/SetsList')
                 },
                 {
                   name: 'icon-set',
                   path: ':name',
                   component: lazyLoading('ui/icons/Set'),
-                  props: true,
-                },
-              ],
+                  props: true
+                }
+              ]
             },
             {
               name: 'spinners',
               path: 'spinners',
-              component: lazyLoading('ui/spinners/Spinners'),
+              component: lazyLoading('ui/spinners/Spinners')
             },
             {
               name: 'grid',
               path: 'grid',
-              component: lazyLoading('ui/grid/Grid'),
+              component: lazyLoading('ui/grid/Grid')
             },
             {
               name: 'modals',
               path: 'modals',
               component: lazyLoading('ui/modals/Modals'),
               meta: {
-                wikiLink: 'https://github.com/epicmaxco/vuestic-admin/wiki/Modals'
+                wikiLink:
+                  'https://github.com/epicmaxco/vuestic-admin/wiki/Modals'
               }
             },
             {
@@ -233,7 +247,8 @@ export default new Router({
               path: 'cards',
               component: lazyLoading('ui/cards/Cards'),
               meta: {
-                wikiLink: 'https://github.com/epicmaxco/vuestic-admin/wiki/Cards'
+                wikiLink:
+                  'https://github.com/epicmaxco/vuestic-admin/wiki/Cards'
               }
             },
             {
@@ -241,7 +256,8 @@ export default new Router({
               path: 'file-upload',
               component: lazyLoading('ui/file-upload/FileUpload'),
               meta: {
-                wikiLink: 'https://github.com/epicmaxco/vuestic-admin/wiki/File-Upload'
+                wikiLink:
+                  'https://github.com/epicmaxco/vuestic-admin/wiki/File-Upload'
               }
             },
             {
@@ -257,7 +273,8 @@ export default new Router({
               path: 'tree-view',
               component: lazyLoading('ui/tree-view/TreeView'),
               meta: {
-                wikiLink: 'https://github.com/epicmaxco/vuestic-admin/wiki/Tree-view'
+                wikiLink:
+                  'https://github.com/epicmaxco/vuestic-admin/wiki/Tree-view'
               }
             },
             {
@@ -320,7 +337,7 @@ export default new Router({
                 wikiLink: 'https://github.com/epicmaxco/vuestic-admin/wiki/Maps'
               }
             }
-          ],
+          ]
         },
         {
           name: 'pages',
@@ -334,7 +351,18 @@ export default new Router({
             }
           ]
         }
-      ],
-    },
-  ],
+      ]
+    }
+  ]
 })
+
+router.beforeEach((to, from, next) => {
+  const currentUser = firebase.auth().currentUser
+  const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
+
+  if (requiresAuth && !currentUser) next('login')
+  else if (!requiresAuth && currentUser) next('home')
+  else next()
+})
+
+export default router

@@ -1,6 +1,7 @@
 {
   "auth": {
     "agree": "Acepto",
+    "iodknowwhat": "IOD - Know what you drink",
     "alreadyJoined": "Ya tienes una cuenta?",
     "createAccount": "Create cuenta",
     "createNewAccount": "Crear cuenta",
@@ -187,8 +188,7 @@
     "small": "Pequeño",
     "static": "Estático",
     "smallTitle": "Modal Pequeña",
-    "staticMessage":
-      "Esto es un modal estático. No se cerrará haciendo clic en el fondo.",
+    "staticMessage": "Esto es un modal estático. No se cerrará haciendo clic en el fondo.",
     "staticTitle": "Modal Estático",
     "title": "Modals"
   },
